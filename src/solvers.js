@@ -11,25 +11,46 @@
 // take a look at solversSpec.js to see what the tests are expecting
 
 window.findNRooksSolution = function(n) {
-  //create an empty board
-  var board = new Board({n:n});
-  var boardSize = n;
-  //loop through rows
-  for (var r = 0; r < boardSize; r++){
-    //loop through each columns
-    for (var c = 0; c < boardSize; c++){
-      //toggle a rook on
-      board.togglePiece(r,c);
-        //if a conflict exists
-        if (board.hasAnyRooksConflicts()){
-          //toggle rook off
-          board.togglePiece(r,c);
-        }
+  // //create an empty board
+  // var board = new Board({n:n});
+  // var boardSize = n;
+  // //loop through rows
+  // for (var r = 0; r < boardSize; r++){
+  //   //loop through each columns
+  //   for (var c = 0; c < boardSize; c++){
+  //     //toggle a rook on
+  //     board.togglePiece(r,c);
+  //       //if a conflict exists
+  //       if (board.hasAnyRooksConflicts()){
+  //         //toggle rook off
+  //         board.togglePiece(r,c);
+  //       }
+  //   }
+  // }
+  // //return board
+  // console.log("solution board " + board.rows());
+  // return board.rows();
+
+  var solution = new Board({'n': n});
+
+    var x = 0;
+  var y = 0;
+  var pieces = 0;
+  while(pieces < n) {
+    solution.togglePiece(y, x);
+    pieces++;
+    if(solution.hasRowConflictAt(y) || solution.hasColConflictAt(x)) {
+      solution.togglePiece(y, x);
+      pieces--;
+    }
+    x++;
+    if(x >= n) {
+      x = 0;
+      y++;
     }
   }
-  //return board
-  console.log("solution board " + board.rows());
-  return board.rows();
+  console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
+  return solution.rows();
 };
 
 
